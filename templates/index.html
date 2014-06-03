@@ -15,15 +15,20 @@
 		<div id= "mainBody">
 			<div id = "create">
 				<div display = "block" > To create words: </div>
-				<input class="inputText" type = "text" id = "createWordsInput"> </input>
-				<input class="inputButton" type = "button" value = "Click Here!" onClick = "createWords()"></input>
-				<div id = "createWordsOutput" class = "output" style="display: none"> 
+				<div id="createFormDiv">
+					<form id="createForm" onsubmit="event.preventDefault(); createWords();">
+						<input class="inputText" type = "text" id = "createWordsInput"> </input>
+						<input class="inputButton" type = "image" src="static/scrabblego.png"></input>
+					</form>
 				</div>
+				<div id = "createWordsOutput" class = "output" style="display: none"></div>
 			</div>
 			<div id = "check">
 				<div display = "block"> To check words: </div>
-				<input class="inputText" type = "text" id = "checkWordsInput"> </input>
-				<input class="inputButton" type = "button" value = "Click Here!" onClick = "checkWords()"></input>
+				<form id="createForm" onsubmit="event.preventDefault(); createWords();">
+					<input class="inputText" type = "text" id = "checkWordsInput"> </input>
+					<input class="inputButton" type = "image" src="static/scrabblego.png"></input>
+				</form>
 				<div id = "checkWordsOutput" class = "output" style="display: none"> 
 				</div>
 			</div>
@@ -176,6 +181,11 @@
 				 	request.send();
 				 }
 			}
+
+			// document.getElementById("createForm").submit(function (event) {
+			// 	event.preventDefault();
+			// 	createWords();
+			// });
 		</script>
 	</body>
 
