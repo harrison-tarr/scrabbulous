@@ -246,7 +246,7 @@ def generate_match2_recurse(letters, partialWord, letterToAdd, suffix, listWords
 						continue
 				else:
 					for letter in gwrLetters:
-						generate_words_recurse(gwrLetters, partialWord+newLetter, letter, listWords)
+						generate_match2_recurse(gwrLetters, partialWord+newLetter, letter, suffix, listWords)
 		return
 	else:
 		gwrPartialWord = partialWord + letterToAdd
@@ -254,13 +254,13 @@ def generate_match2_recurse(letters, partialWord, letterToAdd, suffix, listWords
 		gwrLetters.remove(letterToAdd)
 		wordSearch = binary_search(gwrPartialWord, listWords, False)
 		if wordSearch[0]:
-			if binary_search(partialWord+newLetter+suffix, listWords, False) == (True, True):
-					answers_global.append(partialWord+newLetter+suffix)
+			if binary_search(gwrPartialWord+suffix, listWords, False) == (True, True):
+					answers_global.append(gwrPartialWord+suffix)
 			if gwrLetters == []:
 					return
 			else:
 				for letter in gwrLetters:
-					generate_words_recurse(gwrLetters, gwrPartialWord, letter, listWords)
+					generate_match2_recurse(gwrLetters, gwrPartialWord, letter, suffix, listWords)
 				return
 		else:
 			return
