@@ -1,0 +1,34 @@
+body {
+	font-size: 100%;
+	height: 100%;
+}
+#welcomeBanner {
+	font-size: 2em;
+}
+div {
+	text-align: center;
+	padding: 10px;
+}
+#mainBody { 
+	height: 100%;
+	position: relative;
+	left: 25%;
+	width: 50%;
+}
+.inputButton {
+	min-height: 50px;
+}
+.inputText {
+	min-height: 50px;
+}
+
+/*.sidebar { 
+	height: 100%;
+	width: 25%;
+	background-color: red;
+	float: left;
+}
+*/
+.output {
+	text-align: left
+}
