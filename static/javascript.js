@@ -28,6 +28,14 @@ function toggleInstructions() {
 
 	}
 }
+
+function addSearch(searchText) {
+	historyHandler = document.getElementById("history-handler");
+	var newSearch = document.createElement("div");
+	newSearch.style.padding = "5px 1em 5px";
+	newSearch.innerText = searchText;
+	historyHandler.insertBefore(newSearch, historyHandler.firstChild);
+}
 function calculateScore(answers) {
 	var scores = {};
 	var letter_value_global = {"a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o":1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10 };
@@ -76,7 +84,12 @@ function printFormattedCalculated(answers) {
 	console.log("Finished Calculating");
 	console.log(answers.length);
 	for (var i = 0; i < answers.length; i++) {
-		if (answers[i].length != length) {
+		if (printableString == "") {
+			printableString += String(answers[i].length) + ":<br />";
+			length = answers[i].length;
+			count = 0;
+		}
+		else if (answers[i].length != length) {
 			printableString += "<br /><br />"+String(answers[i].length) + ":<br />";
 			length = answers[i].length;
 			count = 0;
@@ -103,11 +116,13 @@ function printFormattedCalculated(answers) {
 function createWords() {
 	hideOutputs();
 	var output = document.getElementById("createWordsOutput");
+	output.style.textAlign = "left";
 	//output.style.display = "none"
 	var input = document.getElementById("createWordsInput").value;
 	var request = new XMLHttpRequest();
 	request.onreadystatechange= function() {
 	    if (request.readyState==4 && request.status==200) {
+	    	console.log("hello");
 	    	output.style.display = "block";
     		output.style.borderStyle = "solid";
     		output.style.borderColor = "green";
@@ -115,9 +130,22 @@ function createWords() {
     		var parsedStrings = unicodeArrayToStringArray(request.responseText);
     		output.innerHTML = printFormattedCalculated(parsedStrings);
     		document.getElementById("createWordsInput").value = "";
+    		var searchText = input;
+    		addSearch(searchText);
 	    }
 	}
  	input = input.split(" ");
+ 	console.log(input[0])
+ 	if (input[0].length > 8) {
+ 		console.log("If statement caught it.");
+ 		output.style.textAlign = "center";
+ 		output.innerHTML = "Please use 8 or less letters.<br />Any more takes too long to calculate.";
+ 		output.style.display = "block";
+		output.style.borderStyle = "solid";
+		output.style.borderColor = "green";
+ 		document.getElementById("createWordsInput").value = "";
+ 		return;
+ 	}
  	if (input.length == 1) {
  		//output.style.textAlign = "center";
 	 	//console.log(input[0]);
@@ -127,6 +155,7 @@ function createWords() {
 	 	request.send();
 	}
 	else {
+		input[0] = input[0].toLowerCase();
 		request.open("GET", "?request=generate&letters="+input[0]+"&boardWord="+input[1], "true");
 		request.send();
 	}
@@ -154,6 +183,7 @@ function checkWords() {
 	    		output.innerText = input + " is not word...";
 	      		
 	    	}
+	    	addSearch("asdf");
 	    }
  	}
  	input = input.split(" ");

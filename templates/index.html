@@ -11,10 +11,14 @@
 
 	<body>
 		<div id="secret-holder">
-			<div id = "header"> SCRABBULOUS </div>
-			<div id="leftSidebar" class="sidebar" style="float:left;width:25%;overflow: hidden;">
+			<div id = "header"> 
+				<img src="static/scrabb-image-resized.png" /><img src="static/ulous-image-resized.png" />
+			</div>
+			<div id="leftSidebar" class="sidebar" style="float:left;width:25%;">
 				<div id="instruction-menu" onclick="toggleInstructions();" style="background-color: LightGray">
 					<div id="instruction-toggler"> <img src="./static/rightarrow.png" style="display: inline; height: .75em" />  Click here for instructions.</div>
+				</div>
+				<div id="history-handler" style="background-color: ivory">
 				</div>
 			</div>
 				
@@ -25,7 +29,7 @@
 					<div id="createFormDiv" style="position: static;">
 						<form id="createForm" onsubmit="event.preventDefault(); createWords();">
 							<input class="inputText" type = "text" id = "createWordsInput"> </input>
-							<input class="inputButton" type = "image" src="static/scrabblego.png"></input>
+							<input class="inputButton" type = "image" src="static/scrabblego-resized.png"></input>
 						</form>
 					</div>
 					<div id = "createWordsOutput" class = "output" style="display: none"></div>
@@ -34,7 +38,7 @@
 					<div display = "block"> To check words: </div>
 					<form id="createForm" onsubmit="event.preventDefault(); checkWords();">
 						<input class="inputText" type = "text" id = "checkWordsInput"> </input>
-						<input class="inputButton" type = "image" src="static/scrabblego.png"></input>
+						<input class="inputButton" type = "image" src="static/scrabblego-resized.png"></input>
 					</form>
 					<div id = "checkWordsOutput" class = "output" style="display: none"> 
 					</div>
