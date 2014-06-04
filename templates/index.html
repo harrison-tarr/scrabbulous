@@ -10,193 +10,39 @@
 	</head>
 
 	<body>
-		<div id = "welcomeBanner"> Welcome to Scrabbulous, the #1 Word Generation Engine! </div>
-		<div id="leftSidebar" class="sidebar" style="float:left;width:25%;overflow: hidden;">alkdsjfasdkflllllllllllllllllllllllllllllllllllllllllllllllll
-			asdlkfajsjfjslkdfjaskfdn;lekjfa;lkdsjf;lkaej;lfkasjdflneknfkelasdjflksadjfa
-			sfkdsaljflaskjf;lkaej;lkajd;lfa;lksdfj;lsakfdjaslkfjasfd
-			asdflaskjf;lkdsafj;alksjf;lksajf;lkejflkean;lkdsjflklkean;lksdjf;lkenalkdjsfnelkajslkdjfela
-			sdfenlkanslkfjlkdsanf;lkejalksdnflkejaklsdfnlkeas
-			dflkealkdfsnlkejafkjaklsdfnm</div>
-		
-		<!--<div id="rightSidebar" class="sidebar" style="float:right;width:25%;"></div>-->
-		<div id= "mainBody">
-			<div id = "create">
-				<div display = "block" > To create words: </div>
-				<div id="createFormDiv" style="position: static;">
-					<form id="createForm" onsubmit="event.preventDefault(); createWords();">
-						<input class="inputText" type = "text" id = "createWordsInput"> </input>
+		<div id="secret-holder">
+			<div id = "header"> SCRABBULOUS </div>
+			<div id="leftSidebar" class="sidebar" style="float:left;width:25%;overflow: hidden;">
+				<div id="instruction-menu" onclick="toggleInstructions();" style="background-color: LightGray">
+					<div id="instruction-toggler"> <img src="./static/rightarrow.png" style="display: inline; height: .75em" />  Click here for instructions.</div>
+				</div>
+			</div>
+				
+			
+			<div id= "mainBody">
+				<div id = "create" class="input-block">
+					<div display = "block" > To create words: </div>
+					<div id="createFormDiv" style="position: static;">
+						<form id="createForm" onsubmit="event.preventDefault(); createWords();">
+							<input class="inputText" type = "text" id = "createWordsInput"> </input>
+							<input class="inputButton" type = "image" src="static/scrabblego.png"></input>
+						</form>
+					</div>
+					<div id = "createWordsOutput" class = "output" style="display: none"></div>
+				</div>
+				<div id = "check" class="input-block">
+					<div display = "block"> To check words: </div>
+					<form id="createForm" onsubmit="event.preventDefault(); checkWords();">
+						<input class="inputText" type = "text" id = "checkWordsInput"> </input>
 						<input class="inputButton" type = "image" src="static/scrabblego.png"></input>
 					</form>
-				</div>
-				<div id = "createWordsOutput" class = "output" style="display: none"></div>
-			</div>
-			<div id = "check">
-				<div display = "block"> To check words: </div>
-				<form id="createForm" onsubmit="event.preventDefault(); checkWords();">
-					<input class="inputText" type = "text" id = "checkWordsInput"> </input>
-					<input class="inputButton" type = "image" src="static/scrabblego.png"></input>
-				</form>
-				<div id = "checkWordsOutput" class = "output" style="display: none"> 
+					<div id = "checkWordsOutput" class = "output" style="display: none"> 
+					</div>
 				</div>
 			</div>
 		</div>
-		<!--
-		<div id = "leftSidebar" class = "sidebar"></div>
-		<div id = "rightSidebar" class = "sidebar"></div>
-		-->
 
-		<script>
-			function hideOutputs() {
-				output1 = document.getElementById("createWordsOutput");
-				output2 = document.getElementById("checkWordsOutput");
-				output1.style.display = "none"
-				output2.style.display = "none"
-			}
-
-			function calculateScore(answers) {
-				var scores = {};
-				var letter_value_global = {"a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o":1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10 };
-				for (var i = 0; i < answers.length; i++) {
-					console.log(answers[i]);
-					var wordScore = 0;
-					for (var j = 0; j < answers[i].length; j++) {
-						wordScore += letter_value_global[answers[i][j]];
-					}
-					scores[answers[i]] = wordScore;
-				}
-				return scores;
-			}
-
-			function findMaxScore(scores) {
-				var maxScore = 0;
-				var highWord = "";
-				for (key in scores) {
-					if (scores[key] > maxScore) {
-						maxScore = scores[key];
-						highWord = key;
-					}
-				}
-				return highWord + "-" + maxScore
-			}
-
-			function unicodeArrayToStringArray(answers) {
-				var answers = answers.substring(1, answers.length-1);
-				answers = answers.split(",");
-				console.log(answers);
-				stringArray = [];
-				for (var i = 0; i < answers.length; i++) {
-					console.log(i);
-					answers[i] = answers[i].trim();
-					stringArray.push(String(answers[i].substring(2, answers[i].length-1)));
-				}
-				return stringArray;
-			}
-
-			function printFormattedCalculated(answers) {
-				console.log("Beginning print");
-				var printableString = "";
-				var length = 0;
-				var count = 0;
-				words_and_scores = calculateScore(answers);
-				console.log("Finished Calculating");
-				console.log(answers.length);
-				for (var i = 0; i < answers.length; i++) {
-					if (answers[i].length != length) {
-						printableString += "<br /><br />"+String(answers[i].length) + ":<br />";
-						length = answers[i].length;
-						count = 0;
-					}
-					if (count == 7) {
-						printableString += "<br />"; 
-						count = 0;
-					}
-					count+=1;
-					printableString +=  String(answers[i]) + "-" + String(words_and_scores[answers[i]]) + "&emsp;&emsp;";
-				}
-				printableString += "<br />";
-				if (answers == []) {
-					printableString =  "No answers found!";
-						return printableString;
-				}
-				printableString += "<br />HighScore = " + findMaxScore(words_and_scores);
-
-				console.log("Ending print");
-				return printableString;
-			}
-
-
-			function createWords() {
-				hideOutputs();
-				var output = document.getElementById("createWordsOutput");
-				//output.style.display = "none"
-				var input = document.getElementById("createWordsInput").value;
-				var request = new XMLHttpRequest();
-				request.onreadystatechange= function() {
-				    if (request.readyState==4 && request.status==200) {
-				    	output.style.display = "block";
-			    		output.style.borderStyle = "solid";
-			    		output.style.borderColor = "green";
-			    		console.log(request.responseText);
-			    		var parsedStrings = unicodeArrayToStringArray(request.responseText);
-			    		output.innerHTML = printFormattedCalculated(parsedStrings);
-			    		document.getElementById("createWordsInput").value = "";
-				    }
-				}
-			 	input = input.split(" ");
-			 	if (input.length == 1) {
-			 		//output.style.textAlign = "center";
-				 	//console.log(input[0]);
-				 	input[0] = input[0].toLowerCase();
-				 	request.open("GET", "?request=generate&letters="+input[0]+"&boardWord=", "true");
-				 	//console.log("Sent: calculateword.php?request=lookup&word="+input[0]);
-				 	request.send();
-				}
-				else {
-					request.open("GET", "?request=generate&letters="+input[0]+"&boardWord="+input[1], "true");
-					request.send();
-				}
-			}
-			function checkWords() {
-				hideOutputs();
-				var output = document.getElementById("checkWordsOutput");
-				//output.style.display = "none"
-				var input = document.getElementById("checkWordsInput").value;
-				var request = new XMLHttpRequest();
-				request.onreadystatechange=function() {
-				    if (request.readyState==4 && request.status==200) {
-				    	console.log(request.responseText);
-				    	if (request.responseText == "True") {
-				    		output.style.display = "block";
-				    		output.style.borderStyle = "solid";
-				    		output.style.borderColor = "green";
-				    		output.innerText = input + " is a word!";	
-				      		
-				    	}
-				    	else {
-				    		output.style.display = "block";
-				    		output.style.borderStyle = "solid";
-				    		output.style.borderColor = "red";
-				    		output.innerText = input + " is not word...";
-				      		
-				    	}
-				    }
-			 	}
-			 	input = input.split(" ");
-			 	if (input.length == 1) {
-			 		output.style.textAlign = "center";
-				 	console.log(input[0]);
-				 	input[0] = input[0].toLowerCase();
-				 	request.open("GET", "?request=lookup&word="+input[0], "true");
-				 	console.log("Sent: ?request=lookup&word="+input[0]);
-				 	request.send();
-				 }
-			}
-
-			// document.getElementById("createForm").submit(function (event) {
-			// 	event.preventDefault();
-			// 	createWords();
-			// });
-		</script>
+		<script src="./static/javascript.js"></script>
 	</body>
 
 </html>
