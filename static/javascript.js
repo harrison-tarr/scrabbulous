@@ -171,6 +171,7 @@ function createWords() {
 	}
 	else {
 		input[0] = input[0].toLowerCase();
+		input[1] = input[1].toLowerCase();
 		request.open("GET", "?request=generate&letters="+input[0]+"&boardWord="+input[1], "true");
 		request.send();
 	}
