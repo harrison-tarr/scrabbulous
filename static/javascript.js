@@ -18,7 +18,7 @@ function toggleCreate() {
 	createHolder = document.getElementById("instructions-create");
 
 	if (createHolder.lastChild.id != "create-multipleCrosswords") {
-		console.log(createToggler.lastChild.id);
+		
 
 		var basic = document.createElement("div"), crossword = document.createElement("div"), prefixInfixSuffix = document.createElement("div"), multipleCrosswords = document.createElement("div");
 
@@ -41,7 +41,7 @@ function toggleCreate() {
 			if (this.expanded == "f") {
 				this.expanded = "t";
 				this.innerHTML = '&emsp;<img src="./static/downarrow.png" style="display: inline; height: .75em" /> with a crossword.'+
-				"<br />&emsp;Type up to 8 letters in the box and another word, separated by a comma and hit enter. The app will create all possible words with your letters and using the other word as a crossword." +
+				"<br />&emsp;Type up to 8 letters in the box and another word, separated by a space and hit enter. The app will create all possible words with your letters and using the other word as a crossword." +
 				" Use a '.' (without quotes) as a blank tile.";
 			}
 			else {
@@ -55,7 +55,7 @@ function toggleCreate() {
 			if (this.expanded == "f") {
 				this.expanded = "t";
 				this.innerHTML = '&emsp;<img src="./static/downarrow.png" style="display: inline; height: .75em" /> with a prefix, infix, or suffix.'+
-				"<br />&emsp;Type up to 8 letters in the box and another word, with a dash in front, behind, or on both sides of the word. The app will create all possible words with your letters and the other word as a suffix, prefix, or infix, respectively. Use a '.' (without quotes) as a blank tile.";
+				"<br />&emsp;Type up to 8 letters in the box and another word, with a dash in front, behind, or on both sides of the word (Separate by a space). The app will create all possible words with your letters and the other word as a suffix, prefix, or infix, respectively. Use a '.' (without quotes) as a blank tile.";
 			}
 			else {
 				this.expanded = "f";
@@ -68,7 +68,7 @@ function toggleCreate() {
 			if (this.expanded == "f") {
 				this.expanded = "t";
 				this.innerHTML = '&emsp;<img src="./static/downarrow.png" style="display: inline; height: .75em" /> with multiple crosswords.'+
-				"<br />&emsp;Type up to 8 letters in the box and another word of letters and underscores and hit enter. The app will create all possible words with your letters and the other word, filling in the underscores with your letters where it can. Use a '.' (without quotes) as a blank tile.";
+				"<br />&emsp;Type up to 8 letters in the box and another word of letters and underscores and hit enter (Separate by a space). The app will create all possible words with your letters and the other word, filling in the underscores with your letters where it can. Use a '.' (without quotes) as a blank tile.";
 			}
 			else {
 				this.expanded = "f";
@@ -98,7 +98,18 @@ function toggleCreate() {
 }
 
 function toggleCheck() {
-	
+	checkToggler = document.getElementById("instructions-check-toggler");
+	checkHolder = document.getElementById("instructions-check");
+
+	if (checkToggler.expanded == "f") {
+		checkToggler.expanded = "t";
+		checkToggler.innerHTML = '<img src="./static/downarrow.png" style="display: inline; height: .75em" /> How to CHECK.' +
+		"<br />&emsp;To check if a word is a legal Scrabble word, type it in the box and hit enter. The app will look up and score the word for you.";
+	}
+	else {
+		checkToggler.expanded = "f";
+		checkToggler.innerHTML = '<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> How to CHECK.';
+	}
 }
 
 function toggleInstructions() {
@@ -110,6 +121,7 @@ function toggleInstructions() {
 		var instructionsCreate = document.createElement("div");
 		var instructionsCheck = document.createElement("div");
 		var instructionsCreateToggler = document.createElement("div");
+		var instructionsCheckToggler = document.createElement("div");
 
 		instructionsCreate.id = "instructions-create";
 		
@@ -121,20 +133,16 @@ function toggleInstructions() {
 		
 		
 		instructionsCheck.id = "instructions-check";
-		instructionsCheck.onclick = "toggleCheck();";
+		
+		instructionsCheckToggler.id = "instructions-check-toggler";
+		instructionsCheckToggler.onclick = function() {toggleCheck();};
+		instructionsCheckToggler.innerHTML = '<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> How to CHECK.';
+		instructionsCheck.appendChild(instructionsCheckToggler);
+		instructionHolderBar.appendChild(instructionsCheck);
+		instructionsCheckToggler.expanded = "f";
 
 		instructionsCreate.style.padding = "5px 0px 0px", instructionsCheck.style.padding = "5px 0px 0px";
-		//instructions.style.positioning = "absolute";
-		//instructions.style.zIndex = "100";
 		
-		instructionsCheck.innerHTML = '<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> How to CHECK.';
-
-		/*
-		"To create words, you have a couple options. You can type your letters, to generate words based on just your letters. You can "+
-		"also type a word from the board after your letters to use as a cross-word. e.g. 'ieslfn hello' which produces a bunch of words, including 'elfish' which uses the 'h' from 'hello "+
-		"Alternately, you can put a second word with a dash, as a suffix, prefix, or infix for your word. e.g. 'fast -ing' produces a bunch of words, including 'fasting' which uses the 'fast' and 'ing' as a suffix "+
-		"e.g. 'fix pre-' produces a bunch of words, including 'prefix', which uses the 'pre' as a prefix, and fills in the rest with 'fix'";
-		*/
 		instructionToggler.innerHTML = '<img src="./static/downarrow.png" style="display: inline; height: .75em" /> Click here to hide.';
 		
 		instructionHolderBar.appendChild(instructionsCheck);
@@ -228,7 +236,7 @@ function printFormattedCalculated(answers) {
 		printableString =  "No answers found!";
 			return printableString;
 	}
-	printableString = "HighScore = " + findMaxScore(words_and_scores) + "<br /><br />" + printableString;
+	printableString = "HighScore: " + findMaxScore(words_and_scores) + "<br /><br />" + printableString;
 	var highScoreReturn = findMaxScore(words_and_scores);
 	console.log("Ending print");
 	return [printableString, highScoreReturn];
@@ -307,8 +315,10 @@ function checkWords() {
 	    		output.style.display = "block";
 	    		output.style.borderStyle = "solid";
 	    		output.style.borderColor = "green";
-	    		output.innerText = input + " is a word!";
-	    		addSearch("Check: " + input + " &#x2713;");
+	    		var wordScore = calculateScore(input);
+	    		console.log(wordScore);
+	    		output.innerText = input + " is a word! Score: " + wordScore[input];
+	    		addSearch("Check: " + input + "-" + wordScore[input] +  " &#x2713;");
 	      		
 	    	}
 	    	else {
