@@ -170,7 +170,7 @@ function calculateScore(answers) {
 	var scores = {};
 	var letter_value_global = {"a": 1, "b": 3, "c": 3, "d": 2, "e": 1, "f": 4, "g": 2, "h": 4, "i": 1, "j": 8, "k": 5, "l": 1, "m": 3, "n": 1, "o":1, "p": 3, "q": 10, "r": 1, "s": 1, "t": 1, "u": 1, "v": 4, "w": 4, "x": 8, "y": 4, "z": 10 };
 	for (var i = 0; i < answers.length; i++) {
-		console.log(answers[i]);
+		//console.log(answers[i]);
 		var wordScore = 0;
 		for (var j = 0; j < answers[i].length; j++) {
 			wordScore += letter_value_global[answers[i][j]];
@@ -195,10 +195,10 @@ function findMaxScore(scores) {
 function unicodeArrayToStringArray(answers) {
 	var answers = answers.substring(1, answers.length-1);
 	answers = answers.split(",");
-	console.log(answers);
+	//console.log(answers);
 	stringArray = [];
 	for (var i = 0; i < answers.length; i++) {
-		console.log(i);
+		//console.log(i);
 		answers[i] = answers[i].trim();
 		stringArray.push(String(answers[i].substring(2, answers[i].length-1)));
 	}
@@ -206,13 +206,13 @@ function unicodeArrayToStringArray(answers) {
 }
 
 function printFormattedCalculated(answers) {
-	console.log("Beginning print");
+	//console.log("Beginning print");
 	var printableString = "";
 	var length = 0;
 	var count = 0;
 	words_and_scores = calculateScore(answers);
-	console.log("Finished Calculating");
-	console.log(answers.length);
+	//console.log("Finished Calculating");
+	//console.log(answers.length);
 	for (var i = 0; i < answers.length; i++) {
 		if (printableString == "") {
 			printableString += String(answers[i].length) + ":<br />";
@@ -238,7 +238,7 @@ function printFormattedCalculated(answers) {
 	}
 	printableString = "HighScore: " + findMaxScore(words_and_scores) + "<br /><br />" + printableString;
 	var highScoreReturn = findMaxScore(words_and_scores);
-	console.log("Ending print");
+	//console.log("Ending print");
 	return [printableString, highScoreReturn];
 }
 
@@ -252,32 +252,34 @@ function createWords() {
 	var request = new XMLHttpRequest();
 	request.onreadystatechange= function() {
 	    if (request.readyState==4 && request.status==200) {
-	    	console.log("hello");
+	    	output.style.textAlign = "left";
+	    	//console.log("hello");
 	    	output.style.display = "block";
     		output.style.borderStyle = "solid";
     		output.style.borderColor = "green";
-    		console.log(request.responseText);
+    		//console.log(request.responseText);
     		var parsedStrings = unicodeArrayToStringArray(request.responseText);
     		var printOutput = printFormattedCalculated(parsedStrings);
     		var searchText = input;
     		document.getElementById("createWordsInput").value = "";
     		if (printOutput[1].substring(printOutput.length-2, printOutput.length) == "-0") {
+    			output.style.borderColor = "red";
     			output.style.textAlign = "center";
     			output.innerHTML = "No words from " + input[0] +", sorry.";
     			addSearch("Create: " + searchText + "&emsp; HighScore: No answers...");
 
     		}
     		else {
-    			console.log(printOutput[1].substring(printOutput.length-1, printOutput.length));
+    			//console.log(printOutput[1].substring(printOutput.length-1, printOutput.length));
 	    		output.innerHTML = printOutput[0];
 	    		addSearch("Create: " + searchText + "&emsp; HighScore: " + printOutput[1]);
 	    	}
 	    }
 	}
  	input = input.split(" ");
- 	console.log(input[0])
+ 	//console.log(input[0])
  	if (input[0].length > 8) {
- 		console.log("If statement caught it.");
+ 		//console.log("If statement caught it.");
  		output.style.textAlign = "center";
  		output.innerHTML = "Please use 8 or less letters.<br />Any more takes too long to calculate.";
  		output.style.display = "block";
@@ -288,15 +290,25 @@ function createWords() {
  	}
  	if (input.length == 1) {
  		//output.style.textAlign = "center";
-	 	//console.log(input[0]);
+	 	////console.log(input[0]);
 	 	input[0] = input[0].toLowerCase();
+	 	output.style.textAlign = "center";
+	 	output.style.display = "block";
+	 	output.style.borderStyle = "solid";
+		output.style.borderColor = "yellow";
+	 	output.innerHTML = "Loading..."
 	 	request.open("GET", "?request=generate&letters="+input[0]+"&boardWord=", "true");
-	 	//console.log("Sent: calculateword.php?request=lookup&word="+input[0]);
+	 	////console.log("Sent: calculateword.php?request=lookup&word="+input[0]);
 	 	request.send();
 	}
 	else {
 		input[0] = input[0].toLowerCase();
 		input[1] = input[1].toLowerCase();
+		output.style.textAlign = "center";
+		output.style.display = "block";
+		output.style.borderStyle = "solid";
+		output.style.borderColor = "yellow";
+		output.innerHTML = "Loading..."
 		request.open("GET", "?request=generate&letters="+input[0]+"&boardWord="+input[1], "true");
 		request.send();
 	}
@@ -310,13 +322,13 @@ function checkWords() {
 	request.onreadystatechange=function() {
 	    if (request.readyState==4 && request.status==200) {
 	    	document.getElementById("checkWordsInput").value = "";
-	    	console.log(request.responseText);
+	    	//console.log(request.responseText);
 	    	if (request.responseText == "True") {
 	    		output.style.display = "block";
 	    		output.style.borderStyle = "solid";
 	    		output.style.borderColor = "green";
 	    		var wordScore = calculateScore(input);
-	    		console.log(wordScore);
+	    		//console.log(wordScore);
 	    		output.innerText = input + " is a word! Score: " + wordScore[input];
 	    		addSearch("Check: " + input + "-" + wordScore[input] +  " &#x2713;");
 	      		
@@ -335,10 +347,10 @@ function checkWords() {
  	input = input.split(" ");
  	if (input.length == 1) {
  		output.style.textAlign = "center";
-	 	console.log(input[0]);
+	 	//console.log(input[0]);
 	 	input[0] = input[0].toLowerCase();
 	 	request.open("GET", "?request=lookup&word="+input[0], "true");
-	 	console.log("Sent: ?request=lookup&word="+input[0]);
+	 	//console.log("Sent: ?request=lookup&word="+input[0]);
 	 	request.send();
 	 }
 }
