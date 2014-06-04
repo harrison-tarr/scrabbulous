@@ -32,8 +32,8 @@ function toggleInstructions() {
 function addSearch(searchText) {
 	historyHandler = document.getElementById("history-handler");
 	var newSearch = document.createElement("div");
-	newSearch.style.padding = "5px 1em 5px";
-	newSearch.innerText = searchText;
+	newSearch.style.padding = "5px .5em 5px";
+	newSearch.innerHTML = searchText;
 	historyHandler.insertBefore(newSearch, historyHandler.firstChild);
 }
 function calculateScore(answers) {
@@ -106,10 +106,10 @@ function printFormattedCalculated(answers) {
 		printableString =  "No answers found!";
 			return printableString;
 	}
-	printableString += "<br />HighScore = " + findMaxScore(words_and_scores);
-
+	printableString = "HighScore = " + findMaxScore(words_and_scores) + "<br /><br />" + printableString;
+	var highScoreReturn = findMaxScore(words_and_scores);
 	console.log("Ending print");
-	return printableString;
+	return [printableString, highScoreReturn];
 }
 
 
@@ -128,10 +128,11 @@ function createWords() {
     		output.style.borderColor = "green";
     		console.log(request.responseText);
     		var parsedStrings = unicodeArrayToStringArray(request.responseText);
-    		output.innerHTML = printFormattedCalculated(parsedStrings);
+    		var printOutput = printFormattedCalculated(parsedStrings);
+    		output.innerHTML = printOutput[0];
     		document.getElementById("createWordsInput").value = "";
     		var searchText = input;
-    		addSearch(searchText);
+    		addSearch("Create: " + searchText + "&emsp; HighScore: " + printOutput[1]);
 	    }
 	}
  	input = input.split(" ");
@@ -168,12 +169,14 @@ function checkWords() {
 	var request = new XMLHttpRequest();
 	request.onreadystatechange=function() {
 	    if (request.readyState==4 && request.status==200) {
+	    	document.getElementById("checkWordsInput").value = "";
 	    	console.log(request.responseText);
 	    	if (request.responseText == "True") {
 	    		output.style.display = "block";
 	    		output.style.borderStyle = "solid";
 	    		output.style.borderColor = "green";
-	    		output.innerText = input + " is a word!";	
+	    		output.innerText = input + " is a word!";
+	    		addSearch("Check: " + input + " &#x2713;");
 	      		
 	    	}
 	    	else {
@@ -181,9 +184,10 @@ function checkWords() {
 	    		output.style.borderStyle = "solid";
 	    		output.style.borderColor = "red";
 	    		output.innerText = input + " is not word...";
+	    		addSearch("Check: " + input + " &#x2715;");
 	      		
 	    	}
-	    	addSearch("asdf");
+	    	
 	    }
  	}
  	input = input.split(" ");
