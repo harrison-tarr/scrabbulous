@@ -1,8 +1,104 @@
+
+
 function hideOutputs() {
 	output1 = document.getElementById("createWordsOutput");
 	output2 = document.getElementById("checkWordsOutput");
 	output1.style.display = "none"
 	output2.style.display = "none"
+}
+function toggleCreate() {
+	/*
+		basic
+		crossword
+		prefix, infix, suffix
+		multiple crosswords
+
+	*/
+	createToggler = document.getElementById("instructions-create-toggler");
+	createHolder = document.getElementById("instructions-create");
+
+	if (createHolder.lastChild.id != "create-multipleCrosswords") {
+		console.log(createToggler.lastChild.id);
+
+		var basic = document.createElement("div"), crossword = document.createElement("div"), prefixInfixSuffix = document.createElement("div"), multipleCrosswords = document.createElement("div");
+
+		basic.id = "create-basic";
+		basic.expanded = "f";
+		basic.onclick = function() {
+			if (this.expanded == "f") {
+				this.expanded = "t";
+				this.innerHTML = '&emsp;<img src="./static/downarrow.png" style="display: inline; height: .75em" /> Basic.'+
+				"<br />&emsp;Type up to 8 letters in the box and hit enter. The app will create all possible words with your letters. Use a '.' (without quotes) as a blank tile.";
+			}
+			else {
+				this.expanded = "f";
+				this.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> Basic.';
+			}
+		}
+		crossword.id = "create-crossword";
+		crossword.expanded = "f";
+		crossword.onclick = function() {
+			if (this.expanded == "f") {
+				this.expanded = "t";
+				this.innerHTML = '&emsp;<img src="./static/downarrow.png" style="display: inline; height: .75em" /> with a crossword.'+
+				"<br />&emsp;Type up to 8 letters in the box and another word, separated by a comma and hit enter. The app will create all possible words with your letters and using the other word as a crossword." +
+				" Use a '.' (without quotes) as a blank tile.";
+			}
+			else {
+				this.expanded = "f";
+				this.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> with a crossword.';
+			}
+		}
+		prefixInfixSuffix.id = "create-prefixInfixSuffix";
+		prefixInfixSuffix.expanded ="f";
+		prefixInfixSuffix.onclick = function() {
+			if (this.expanded == "f") {
+				this.expanded = "t";
+				this.innerHTML = '&emsp;<img src="./static/downarrow.png" style="display: inline; height: .75em" /> with a prefix, infix, or suffix.'+
+				"<br />&emsp;Type up to 8 letters in the box and another word, with a dash in front, behind, or on both sides of the word. The app will create all possible words with your letters and the other word as a suffix, prefix, or infix, respectively. Use a '.' (without quotes) as a blank tile.";
+			}
+			else {
+				this.expanded = "f";
+				this.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> with a prefix, infix, or suffix.';
+			}
+		}
+		multipleCrosswords.id = "create-multipleCrosswords";
+		multipleCrosswords.expanded = "f";
+		multipleCrosswords.onclick = function() {
+			if (this.expanded == "f") {
+				this.expanded = "t";
+				this.innerHTML = '&emsp;<img src="./static/downarrow.png" style="display: inline; height: .75em" /> with multiple crosswords.'+
+				"<br />&emsp;Type up to 8 letters in the box and another word of letters and underscores and hit enter. The app will create all possible words with your letters and the other word, filling in the underscores with your letters where it can. Use a '.' (without quotes) as a blank tile.";
+			}
+			else {
+				this.expanded = "f";
+				this.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> with multiple crosswords.';
+			}
+		}
+		basic.style.padding, crossword.style.padding, prefixInfixSuffix.style.padding, multipleCrosswords.style.padding = "5px 0px 0px";
+
+		basic.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> Basic.';
+		crossword.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> with a crossword.';
+		prefixInfixSuffix.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> with a prefix, infix, or suffix.';
+		multipleCrosswords.innerHTML = '&emsp;<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> with multiple crosswords.';
+
+		createToggler.innerHTML = '<img src="./static/downarrow.png" style="display: inline; height: .75em" /> How to CREATE.';
+		createHolder.appendChild(basic);
+		createHolder.appendChild(crossword);
+		createHolder.appendChild(prefixInfixSuffix);
+		createHolder.appendChild(multipleCrosswords);
+	}
+	else {
+		createHolder.removeChild(document.getElementById("create-basic"));
+		createHolder.removeChild(document.getElementById("create-crossword"));
+		createHolder.removeChild(document.getElementById("create-prefixInfixSuffix"));
+		createHolder.removeChild(document.getElementById("create-multipleCrosswords"));
+		createToggler.innerHTML = '<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> How to CREATE.';
+	}
+}
+
+function toggleCheck() {
+	
 }
 
 function toggleInstructions() {
@@ -10,22 +106,43 @@ function toggleInstructions() {
 	instructionHolderBar = document.getElementById("instruction-menu");
 	instructionToggler = document.getElementById("instruction-toggler");
 
-	if (instructionHolderBar.lastChild.id != "instructions-verbose") {
-		var instructions = document.createElement("div");
-		instructions.id = "instructions-verbose";
-		instructions.style.padding = "5px 0px 0px";
-		instructions.style.positioning = "absolute";
+	if (instructionHolderBar.lastChild.id != "instructions-check") {
+		var instructionsCreate = document.createElement("div");
+		var instructionsCheck = document.createElement("div");
+		var instructionsCreateToggler = document.createElement("div");
+
+		instructionsCreate.id = "instructions-create";
+		
+		instructionsCreateToggler.id = "instructions-create-toggler";
+		instructionsCreateToggler.onclick = function() {toggleCreate();};
+		instructionsCreateToggler.innerHTML = '<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> How to CREATE.';
+		instructionsCreate.appendChild(instructionsCreateToggler);
+		instructionHolderBar.appendChild(instructionsCreate);
+		
+		
+		instructionsCheck.id = "instructions-check";
+		instructionsCheck.onclick = "toggleCheck();";
+
+		instructionsCreate.style.padding = "5px 0px 0px", instructionsCheck.style.padding = "5px 0px 0px";
+		//instructions.style.positioning = "absolute";
 		//instructions.style.zIndex = "100";
-		instructions.innerText = "To create words, you have a couple options. You can type your letters, to generate words based on just your letters. You can "+
+		
+		instructionsCheck.innerHTML = '<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> How to CHECK.';
+
+		/*
+		"To create words, you have a couple options. You can type your letters, to generate words based on just your letters. You can "+
 		"also type a word from the board after your letters to use as a cross-word. e.g. 'ieslfn hello' which produces a bunch of words, including 'elfish' which uses the 'h' from 'hello "+
 		"Alternately, you can put a second word with a dash, as a suffix, prefix, or infix for your word. e.g. 'fast -ing' produces a bunch of words, including 'fasting' which uses the 'fast' and 'ing' as a suffix "+
 		"e.g. 'fix pre-' produces a bunch of words, including 'prefix', which uses the 'pre' as a prefix, and fills in the rest with 'fix'";
+		*/
 		instructionToggler.innerHTML = '<img src="./static/downarrow.png" style="display: inline; height: .75em" /> Click here to hide.';
-		instructionHolderBar.appendChild(instructions);
+		
+		instructionHolderBar.appendChild(instructionsCheck);
 		
 	}
 	else {
-		instructionHolderBar.removeChild(document.getElementById("instructions-verbose"));
+		instructionHolderBar.removeChild(document.getElementById("instructions-create"));
+		instructionHolderBar.removeChild(document.getElementById("instructions-check"));
 		instructionToggler.innerHTML = '<img src="./static/rightarrow.png" style="display: inline; height: .75em" /> Click here for instructions.';
 
 	}
