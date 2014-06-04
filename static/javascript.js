@@ -35,6 +35,9 @@ function addSearch(searchText) {
 	newSearch.style.padding = "5px .5em 5px";
 	newSearch.innerHTML = searchText;
 	historyHandler.insertBefore(newSearch, historyHandler.firstChild);
+	if (historyHandler.children.length > 15) {
+		historyHandler.removeChild(historyHandler.lastChild);
+	}
 }
 function calculateScore(answers) {
 	var scores = {};
