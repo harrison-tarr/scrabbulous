@@ -14,6 +14,8 @@ function toggleInstructions() {
 		var instructions = document.createElement("div");
 		instructions.id = "instructions-verbose";
 		instructions.style.padding = "5px 0px 0px";
+		instructions.style.positioning = "absolute";
+		//instructions.style.zIndex = "100";
 		instructions.innerText = "To create words, you have a couple options. You can type your letters, to generate words based on just your letters. You can "+
 		"also type a word from the board after your letters to use as a cross-word. e.g. 'ieslfn hello' which produces a bunch of words, including 'elfish' which uses the 'h' from 'hello "+
 		"Alternately, you can put a second word with a dash, as a suffix, prefix, or infix for your word. e.g. 'fast -ing' produces a bunch of words, including 'fasting' which uses the 'fast' and 'ing' as a suffix "+
@@ -132,10 +134,19 @@ function createWords() {
     		console.log(request.responseText);
     		var parsedStrings = unicodeArrayToStringArray(request.responseText);
     		var printOutput = printFormattedCalculated(parsedStrings);
-    		output.innerHTML = printOutput[0];
-    		document.getElementById("createWordsInput").value = "";
     		var searchText = input;
-    		addSearch("Create: " + searchText + "&emsp; HighScore: " + printOutput[1]);
+    		document.getElementById("createWordsInput").value = "";
+    		if (printOutput[1].substring(printOutput.length-2, printOutput.length) == "-0") {
+    			output.style.textAlign = "center";
+    			output.innerHTML = "No words from " + input[0] +", sorry.";
+    			addSearch("Create: " + searchText + "&emsp; HighScore: No answers...");
+
+    		}
+    		else {
+    			console.log(printOutput[1].substring(printOutput.length-1, printOutput.length));
+	    		output.innerHTML = printOutput[0];
+	    		addSearch("Create: " + searchText + "&emsp; HighScore: " + printOutput[1]);
+	    	}
 	    }
 	}
  	input = input.split(" ");
