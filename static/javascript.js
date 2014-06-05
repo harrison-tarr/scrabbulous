@@ -162,7 +162,7 @@ function addSearch(searchText) {
 	newSearch.style.padding = "5px .5em 5px";
 	newSearch.innerHTML = searchText;
 	historyHandler.insertBefore(newSearch, historyHandler.firstChild);
-	if (screen.height > screen.width){
+	if (window.height > window.width){
     	if (historyHandler.children.length > 3) {
 		historyHandler.removeChild(historyHandler.lastChild);
 		}	
