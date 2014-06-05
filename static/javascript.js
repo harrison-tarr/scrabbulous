@@ -162,12 +162,13 @@ function addSearch(searchText) {
 	newSearch.style.padding = "5px .5em 5px";
 	newSearch.innerHTML = searchText;
 	historyHandler.insertBefore(newSearch, historyHandler.firstChild);
-	if (window.height > window.width){
+	if (window.orientation == 0){
     	if (historyHandler.children.length > 3) {
 			historyHandler.removeChild(historyHandler.lastChild);
 		}	
 	}
 	else {
+		console.log(screen.availHeight, screen.availWidth); 
 		if (historyHandler.children.length > 15) {
 			historyHandler.removeChild(historyHandler.lastChild);
 		}
