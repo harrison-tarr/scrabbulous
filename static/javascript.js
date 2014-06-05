@@ -162,8 +162,15 @@ function addSearch(searchText) {
 	newSearch.style.padding = "5px .5em 5px";
 	newSearch.innerHTML = searchText;
 	historyHandler.insertBefore(newSearch, historyHandler.firstChild);
-	if (historyHandler.children.length > 15) {
+	if (screen.height > screen.width){
+    	if (historyHandler.children.length > 3) {
 		historyHandler.removeChild(historyHandler.lastChild);
+		}	
+	}
+	else {
+		if (historyHandler.children.length > 15) {
+			historyHandler.removeChild(historyHandler.lastChild);
+		}
 	}
 }
 function calculateScore(answers) {
