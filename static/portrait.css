@@ -31,8 +31,8 @@ div {
 #mainBody { 
 	/*height: 100%;*/
 	position: absolute;
-	left: 25%;
-	width: 75%;
+	/*left: 25%;
+	width: 75%;*/
 	/*background-color: ivory;*/
 	margin: 0px;
 	border: 0px;
@@ -72,8 +72,7 @@ div {
 .sidebar { 
 	/*height: 100%;
 	width: 25%;*/
-	width:25%;
-	background-color: red;
+	/*background-color: red;*/
 	margin: 0px;
 	border: 0px;
 	/*border: none;*/
@@ -84,10 +83,10 @@ div {
 
 .output {
 	text-align: left;
-	position: relative;
+	/*position: relative;
 	left: 25%;
 	padding: 5px;
-	width: 50%;
+	width: 50%;*/
 	margin-top: 1em;
 	/*margin-bottom: 1em;*/
 	background-color: ivory;
