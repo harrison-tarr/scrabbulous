@@ -164,7 +164,7 @@ function addSearch(searchText) {
 	historyHandler.insertBefore(newSearch, historyHandler.firstChild);
 	if (window.height > window.width){
     	if (historyHandler.children.length > 3) {
-		historyHandler.removeChild(historyHandler.lastChild);
+			historyHandler.removeChild(historyHandler.lastChild);
 		}	
 	}
 	else {
