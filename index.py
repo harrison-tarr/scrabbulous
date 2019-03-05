@@ -15,6 +15,7 @@ for line in dictionary:
 
 class index:
 	def GET(self):
+		print web.input()
 		if web.input():
 			webInput = web.input()
 			if webInput["request"] == "lookup":
